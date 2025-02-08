@@ -49,7 +49,7 @@ import AppSoc from "./components/AppSoc"
 import FullApp from "./components/HomePage/FullApp";
 
 import './App.css';
-import SignUpLogin from "./components/SignUpLogin/SignUpLogin";
+import SignUpLogin from "./components/SignUpLoginPage/SignUpLogin";
 
 import { BrowserRouter } from 'react-router-dom';
 import { Navigate, Route, Routes } from "react-router-dom";
