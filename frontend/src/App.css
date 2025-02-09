@@ -63,6 +63,9 @@
             height: 70px;
             width: 70px;
             margin-top: 20%;
+
+            background-color: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
          
   
             display: flex;
@@ -72,13 +75,20 @@
             border-radius: 50%;
 
             font-size: xx-large;
+
+            cursor: pointer;
   
           }
 
+          .Icon:hover {
+            background-color: #25d3659a;
+          }
 
-
-
+         
         }
+
+       
+      
 
         .end{
 
@@ -102,6 +112,9 @@
             width: 70px;
             margin-bottom: 20%;
 
+            background-color: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+
             display: flex;
             justify-content: center;
             align-items: center;
@@ -110,7 +123,13 @@
 
             font-size: xx-large;
 
+            cursor: pointer;
+
   
+          }
+
+          .Icon:hover {
+            background-color: #25d3659a;
           }
 
 

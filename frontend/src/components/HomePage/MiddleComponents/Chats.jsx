@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+
+
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { LuMessageSquarePlus } from "react-icons/lu";
 
@@ -10,6 +12,9 @@ import User from './SubMiddle/User';
 
 function Chats() {
     const [searchDisplay,setSearchDisplay]=useState(true);
+
+    
+
   return (
     <div className='Chats'>
       <div className='Nav'>
