@@ -6,7 +6,7 @@ export const ContextDef= createContext();
 const ContextProvider =(props)=> 
     {
 
-        const[middlePage,setMiddlePage]=useState("chats");
+        const[middlePage,setMiddlePage]=useState("status");
 
         return (
                 <ContextDef.Provider value={{middlePage,setMiddlePage}}>
