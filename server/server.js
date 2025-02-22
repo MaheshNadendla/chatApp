@@ -59,8 +59,35 @@ const io = new Server(server, {
 
 let onlineUsers = {}; // Track online users
 
+let socketIds = [];
+let messages = [];
+
+Array.prototype.remove = function(value) {
+  let index = this.indexOf(value);
+  if (index !== -1) {
+      this.splice(index, 1);
+  }
+};
+
+
+
 io.on("connection", (socket) => {
   console.log(`User connected: ${socket.id}`);
+
+
+  socket.emit("new_user",socket.id)
+
+  socket.on("get_user_id", () => {
+    socket.emit("new_user", socket.id);
+  });
+
+  socketIds.push(socket.id);
+
+  console.log(socketIds);
+
+  socket.on("receive_users", () => {
+    io.emit("allUsers", socketIds);
+  });
 
   // Handle user joining with a username
   // Handle user joining
@@ -77,33 +104,39 @@ io.on("connection", (socket) => {
   });
 
   // Handle private messages (Direct Messages - DM)
-  socket.on("sendPrivateMessage", ({ receiverId, message }) => {
-    io.to(receiverId).emit("receivePrivateMessage", {
-      sender: onlineUsers[socket.id],
-      message,
-    });
+  socket.on("sendPrivateMessage", ({ chatName, inputValue }) => {
+
+    console.log(`${chatName} ::: ${inputValue}`)
+
+    io.to(chatName).emit("receivePrivateMessage", [socket.id,
+      inputValue,chatName
+    ]);
   });
 
-  // Handle room joining
-  socket.on("joinRoom", (room) => {
-    socket.join(room);
-    socket.to(room).emit("receiveMessage", `${onlineUsers[socket.id]} joined ${room}`);
-  });
+  // // Handle room joining
+  // socket.on("joinRoom", (room) => {
 
-  // Handle messages inside a room
-  socket.on("sendMessageToRoom", ({ room, message }) => {
-    socket.to(room).emit("receiveMessage", message);
-  });
+  //   console.log(`user is joined in room ${room} : sid : ${socket.id}`)
+  //   socket.join(room);
+  //   socket.to(room).emit("receiveMessage", `${socket.id} joined ${room}`);
+  // });
 
-  // Handle typing indicator
-  socket.on("typing", (room) => {
-    socket.to(room).emit("userTyping", onlineUsers[socket.id]);
-  });
+
+  // socket.on("send_message", ({ room, message }) => {
+  //   io.to(room).emit("receiveMessage", message);
+  // });
+
+
 
   // Handle disconnection
   socket.on("disconnect", () => {
     console.log(`User disconnected: ${socket.id}`);
     delete onlineUsers[socket.id];
+
+    socketIds.remove(socket.id);
+
+    io.emit("allUsers", socketIds);
+
     io.emit("onlineUsers", Object.values(onlineUsers));
   });
 });
