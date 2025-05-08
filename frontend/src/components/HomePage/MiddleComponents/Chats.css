@@ -1,0 +1,204 @@
+.Chats{
+
+
+    height: 100vh;
+    width: 100%;
+   
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.115);
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .Nav{
+
+      background-color: #fff;
+      height: 12%;
+      
+      width: 100%;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      
+    
+      .NavLeft{
+        margin-left: 20px;
+
+
+        .Charts{
+          font-size: xx-large;
+          font-weight: 700;
+        }
+
+
+      }
+
+      .NavRight{
+        width: 60%;
+        margin-right: 20px;
+        display: flex;
+        flex-direction: row-reverse;
+        background-color: #fff;
+
+
+        .Icon{
+          height: 70px;
+          width: 70px;
+          margin-left: 10px;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50%;
+
+          font-size: xx-large;
+
+
+        }
+
+
+
+      }
+
+
+    }
+
+    .Search
+    {
+
+      width: 100%; 
+      height: 8%;
+      background-color: #ffffff;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+
+      .SearchBox{
+        background-color:#f0f2f5;
+        width: 100%;
+        height: 50px;
+
+        margin-inline: 20px;
+
+        border-radius: 14px;
+
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        border: 1px solid rgba(0, 0, 0, 0.096);
+
+
+        .SearchBack{
+           width : 10%; 
+           height: 100%;
+           border : none;
+
+           font-size: xx-large;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+
+           
+
+           background-color: transparent;
+            color: rgba(0, 0, 0, 0.45);
+            cursor: pointer;
+
+        }
+        .SearchBar{
+          width: 90%;
+          height: 100%;
+          border: none;
+          background-color: transparent;
+          outline: none;
+          font-size: x-large;
+        }
+
+
+
+
+        
+      }
+
+
+
+    }
+    .List{
+      background-color: black;
+      background-color: transparent;
+      width: 100%;
+      height: 8%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+    
+
+      .ListItem{
+       margin-left: 20px;
+       background-color:#f0f2f5;
+       padding-block: 10px;
+       padding-inline: 20px;
+       border-radius: 25px;
+       border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+
+    }
+
+
+    .Users{
+      width: 100%;
+      height: 72%;
+      /* display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center; */
+
+      /* flex-grow: 1; */
+      overflow-y: auto;
+
+      
+      
+
+      
+
+      .LineBox{
+
+       
+       
+        height: 1px;
+        width: 100%;
+        display: flex;
+
+        .Empty
+        {
+            width: 20%;
+           
+            height: 1px;
+        }
+        .Line{
+
+            width: 80%;
+            background-color: rgba(0, 0, 0, 0.263);
+            border-radius: 50%;
+            height: 1px;
+
+        }
+
+      }
+
+
+    }
+
+
+
+  }

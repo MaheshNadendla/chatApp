@@ -234,7 +234,7 @@
 
 
 
-import socket from '../../../socket';
+// import socket from '../../../socket';
 import React, { useContext, useEffect, useState } from 'react';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { LuMessageSquarePlus } from "react-icons/lu";
@@ -243,53 +243,79 @@ import { GrSearch } from "react-icons/gr";
 import User from './SubMiddle/User';
 import { ContextDef } from '../contextDef';
 
+import './Chats.css'
+import Spinner from '../../utils/Loader';
+
+
 function Chats() {
   const [searchDisplay, setSearchDisplay] = useState(true);
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState(null); // Will hold the socket ID
   const { setYourName } = useContext(ContextDef);
   const [socketConnected, setSocketConnected] = useState(false);
 
+
+  const { getUsers, users, isUsersLoading } = useContext(ContextDef);
+
+
+  // console.log(users)
+
+
+
+  // const { onlineUsers } = useAuthStore();
+  // const [showOnlineOnly, setShowOnlineOnly] = useState(false);
+
   useEffect(() => {
-    // Listen for socket connection
-    socket.on('connect', () => {
-      setSocketConnected(true);
-      console.log('Socket connected with ID:', socket.id);
-    });
+    getUsers();
+  }, []);
 
-    // Emit get_user_id once socket is connected
-    if (socketConnected) {
-      socket.emit('get_user_id');
-    }
+  // const filteredUsers = showOnlineOnly
+  //   ? users.filter((user) => onlineUsers.includes(user._id))
+  //   : users;
 
-    // Listen for new user event and set the user's socket ID
-    socket.on('new_user', (msg) => {
-      console.log('Received new_user event:', msg.sid); // Debugging log
-      setNewUser(msg.uid); // Set the socket ID once received
-      setYourName(msg.sid); // Assuming you're setting the name based on socket ID
-    });
+  if (isUsersLoading) return <Spinner/>;
 
-    // Listen for all users event and update user list
-    socket.on('allUsers', (data) => {
-      setUsers(data); // Update users state with the latest list
-    });
 
-    // Request the list of users from the server
-    socket.emit('receive_users');
+  // useEffect(() => {
+  //   // Listen for socket connection
+  //   socket.on('connect', () => {
+  //     setSocketConnected(true);
+  //     console.log('Socket connected with ID:', socket.id);
+  //   });
 
-    // Cleanup socket listeners when the component unmounts
-    return () => {
-      socket.off('connect');
-      socket.off('new_user');
-      socket.off('allUsers');
-    };
-  }, [socketConnected, setYourName]);
+  //   // Emit get_user_id once socket is connected
+  //   if (socketConnected) {
+  //     socket.emit('get_user_id');
+  //   }
+
+  //   // Listen for new user event and set the user's socket ID
+  //   socket.on('new_user', (msg) => {
+  //     console.log('Received new_user event:', msg.sid); // Debugging log
+  //     setNewUser(msg.uid); // Set the socket ID once received
+  //     setYourName(msg.sid); // Assuming you're setting the name based on socket ID
+  //   });
+
+  //   // Listen for all users event and update user list
+  //   socket.on('allUsers', (data) => {
+  //     setUsers(data); // Update users state with the latest list
+  //   });
+
+  //   // Request the list of users from the server
+  //   socket.emit('receive_users');
+
+  //   // Cleanup socket listeners when the component unmounts
+  //   return () => {
+  //     socket.off('connect');
+  //     socket.off('new_user');
+  //     socket.off('allUsers');
+  //   };
+  // }, [socketConnected, setYourName]);
 
   return (
     <div className="Chats">
       <div className="Nav">
         <div className="NavLeft">
-          <label className="Charts">{newUser}</label>
+          <label className="Charts">{"WhatsApp"}</label>
         </div>
         <div className="NavRight">
           <div className="Icon"><BsThreeDotsVertical /></div>
@@ -321,7 +347,7 @@ function Chats() {
 
       <div className="Users">
         {users.map((user, index) => (
-          <User key={index} name={user} />
+          <User key={index} user={user} />
         ))}
       </div>
     </div>

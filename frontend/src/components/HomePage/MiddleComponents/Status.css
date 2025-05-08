@@ -1,0 +1,75 @@
+.Status{
+
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    .StatusHeader{
+      background-color: white;
+      height: 11%;
+      width: 100%;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+
+      .StatusLabel{
+        
+        height: 100%;
+        width: 18%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-size: xx-large;
+        font-weight: 750;
+
+
+      }
+
+      .StatusButtons{
+
+      
+        height: 100%;
+        width: 25%;
+
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+
+        font-size: xx-large;
+
+      }
+
+
+    }
+    .StatusBar{
+      background-color: pink;
+      height: 89%;
+      width: 100%;
+
+      overflow-y: auto;
+
+
+
+      
+
+      .StatusBox{
+
+        /* background-color: blue; */
+
+        width: 100%;
+
+
+          
+
+
+      }
+
+
+    }
+
+  }

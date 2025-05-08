@@ -1,5 +1,5 @@
 import React from 'react'
-
+import './StatusVideo.css'
 function StatusVideo({name,time}) {
   return (
     <div className='StatusVideoBox'>

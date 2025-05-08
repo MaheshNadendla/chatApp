@@ -10,10 +10,17 @@ import Profile from './MiddleComponents/Profile';
 
 function Middle() {
 
+    const middleCss={
+        Middle:{
+
+        width: '40%',
+        height: '100vh'
+        }
+      }
   
   const {middlePage}= useContext(ContextDef);
   return (
-    <div className='Middle'>
+    <div style={middleCss.Middle}>
 
       {
           middlePage==="chats" && <Chats />

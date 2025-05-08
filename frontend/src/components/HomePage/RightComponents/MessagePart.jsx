@@ -1,102 +1,175 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { GrSearch } from "react-icons/gr";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa6";
 import { FaMicrophone } from "react-icons/fa";
 import { IoSendSharp } from "react-icons/io5";
 import { RiEmojiStickerFill } from "react-icons/ri";
-import socket from '../../../socket';
+// import socket from '../../../socket';
 import { ContextDef } from '../contextDef';
+
+import BtnLoader from '../../utils/BtnLoader'
+
+
+import './MessagePart.css'
+import RightPart from './RightPart';
+import { ChatBubble } from './ChatBubble';
+
+import toast from 'react-hot-toast'
+import socket from '../../../socket';
 
 function MessagePart() {
   const [inputValue, setInputValue] = useState("");
+  const [sendingMessageLoader,setSendingMessageLoader]=useState(false)
   const { userMessages, setUserMessages } = useContext(ContextDef);
-  const { messages, setMessages } = useContext(ContextDef);
+
+  const {typingStatus, setTypingStatus}=useContext(ContextDef);
+  const{ messages,getMessages,isMessagesLoading,subscribeToMessages,unsubscribeFromMessages,selectedUser, authUser,sendMessage}= useContext(ContextDef);
+  
+
+  // const { messages, setMessages } = useContext(ContextDef);
   const { chatName, yourName } = useContext(ContextDef);
 
-  const [newUser, setNewUser] = useState(null);
-
-  // Function to send the message
-  const sendMessage = () => {
-    // Update local message state
-    setMessages(p => [...p, { senderId: yourName, message: inputValue, receiverId: chatName }]);
-    setUserMessages(p => [...p, { senderId: yourName, message: inputValue, receiverId: chatName }]);
+  const fileInputRef = useRef(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
 
-    // Emit to server
-    socket.emit("sendMessage", inputValue);
 
-    // Log the sent message to console
-    console.log('Sent message:', inputValue);
+  const messageInputHadle = (e)=>{
 
-    console.log(messages)
+    setInputValue(e.target.value)
 
-    // Clear input
-    setInputValue("");
-  };
 
-  const handleSendPrivateMessage =()=>{
-
-    setMessages(p => [...p, { senderId: yourName, message: inputValue, receiverId: chatName }]);
-    setUserMessages(p => [...p, { senderId: yourName, message: inputValue, receiverId: chatName }]);
-
-    // Emit to server
-    socket.emit("sendPrivateMessage",{ senderId: yourName, message: inputValue, receiverId: chatName });
-
-    // Log the sent message to console
-    console.log('Sent message:', inputValue);
-
-    // Clear input
-    setInputValue("");
-
+    socket.emit("typing", {
+      senderId: authUser._id,
+      receiverId: selectedUser._id,
+    });
+  
+  
+  
 
   }
+
+
+  const handleImageChange = (e) => {
+
+    const file = e.target.files?.[0];
+    if (!file) {
+      e.target.value = "";
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file");
+      e.target.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+
+    e.target.value = "";
+
+  };
+
+
+
+
+
+  useEffect(() => {
+    setImagePreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }, [selectedUser]);
+  
+
+
+  // console.log(messages)
+
+
+  useEffect(() => {
+    // console.log("hello")
+    if (!selectedUser?._id) return;
+
+    getMessages(selectedUser?._id);
+    subscribeToMessages();
+
+    return () => unsubscribeFromMessages();
+
+
+    
+  }, [selectedUser,selectedUser?._id,subscribeToMessages,unsubscribeFromMessages]);
+
 
 
   
 
 
+
+  
+
+
+  const [newUser, setNewUser] = useState(null);
+
+
+
+
+
+
+  const handleSendPrivateMessage = async (e) => {
+
+    setSendingMessageLoader(true)
+
+    e.preventDefault();
+    if (!inputValue.trim() && !imagePreview) return;
+
+    try {
+      await sendMessage({
+        text: inputValue.trim(),
+        image: imagePreview,
+      });
+
+      // Clear form
+      setInputValue("")
+      setImagePreview(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    } catch (error) {
+      console.error("Failed to send message:", error);
+    }
+    finally{
+      setSendingMessageLoader(false)
+    }
+  };
+
+
+  const messagesEndRef = useRef(null);
+
   useEffect(() => {
-    const handleNewUser = ( msg) => {
-      setNewUser(msg.uid);
-      console.log('New user connected:', msg.sid); // Log new user connection
-    };
+    // Scroll to the bottom when new messages are added
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, []); // Trigger effect when messages change
 
-    const handleReceivePrivateMessage = (msg) => {
-      setMessages((p) => [...p,{ senderId: msg.senderId, message: msg.inputValue, receiverId: msg.chatName }]);
-      setUserMessages((p) => [...p,{ senderId: msg.senderId, message: msg.inputValue, receiverId: msg.chatName }]);
-      console.log('Received message:', msg); // Log received message
-      console.log(messages)
-    };
 
-    const handleReceiveMessage = (msg) => {
-      setMessages((p) => [msg, ...p]);
-      setUserMessages((p) => [msg, ...p]);
-      console.log('Received message:', msg); // Log received message
-      console.log(messages)
-    };
+  console.log(typingStatus)
 
-    socket.on("new_user", handleNewUser);
-    socket.on("receiveMessage", handleReceiveMessage);
-    socket.on("receivePrivateMessage",handleReceivePrivateMessage)
 
-    socket.emit("get_user_id");
-
-    return () => {
-      socket.off("new_user", handleNewUser);
-      socket.off("receiveMessage", handleReceiveMessage);
-      socket.off("receivePrivateMessage", handleReceivePrivateMessage);
-    };
-  }, []);
+  if(!selectedUser)
+  {
+    return <><RightPart/></>
+  }
 
   return (
     <div className='MessagePart'>
       <div className='Top'>
         <div className='RightPhoto'>
-          <div className="RPhoto"></div>
+          <div className="RPhoto">
+            <img src={selectedUser?.profilePic || 'defaultImg.png'} alt="User Photo" />
+          </div>
         </div>
         <div className="RightName">
-          <div className="RName">{yourName === chatName ? "You" : chatName} </div>
+          <div className="RName">{authUser?._id === selectedUser?._id ? "You" : selectedUser?.name} </div>
           <div className="RInfo">Click here for info</div>
         </div>
         <div className="RightIcons">
@@ -106,28 +179,57 @@ function MessagePart() {
       </div>
 
       <div className='Center'>
-        {userMessages.map((msg, index) => (
-          <span key={index} className="RMess">
-            {msg.senderId} : {msg.message}
+
+      {imagePreview && (
+          <div className="ImagePreviewContainer">
+            <img src={imagePreview} alt="Preview" className="PreviewImage" />
+            <button onClick={() => setImagePreview(null)} className="CancelPreview">❌</button>
+          </div>
+      )}
+
+
+        {messages.map((msg, index) => (
+
+          // RMess=> className
+
+          <span key={index} className="">
+
+            <ChatBubble
+              message={msg.text}
+              image={msg.image}
+              isSender={authUser?._id === msg.senderId}
+              time={new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              status={authUser?._id === msg.senderId ? "sent" : ""}
+            />
+
+           
           </span>
         ))}
+          <div ref={messagesEndRef} /> 
       </div>
 
       <div className='Bottom'>
-        <div className="Plus"><FaPlus /></div>
+        <input type="file" accept="image/*" className="hidden" ref={fileInputRef} onChange={handleImageChange} />
+
+        <button  onClick={() => fileInputRef.current?.click()} className="Plus"><FaPlus /> </button>
         <div className="InputBar">
           <button className="Sticker"><RiEmojiStickerFill /></button>
           <input
             value={inputValue}
             type="text"
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={messageInputHadle}
             className="RInput"
           />
         </div>
         <div className="Mic">
-          {inputValue !== ""
+          {sendingMessageLoader ? (<BtnLoader/>) :
+          
+          
+          inputValue !== "" || imagePreview
             ? <IoSendSharp onClick={handleSendPrivateMessage} />
             : <FaMicrophone />}
+
+
         </div>
       </div>
     </div>
@@ -135,3 +237,133 @@ function MessagePart() {
 }
 
 export default MessagePart;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // Function to send the message
+  // const sendMessage = () => {
+  //   // Update local message state
+  //   // setMessages(p => [...p, { senderId: yourName, message: inputValue, receiverId: chatName }]);
+  //   setUserMessages(p => [...p, { senderId: yourName, message: inputValue, receiverId: chatName }]);
+
+
+  //   // Emit to server
+  //   // socket.emit("sendMessage", inputValue);
+
+  //   // Log the sent message to console
+  //   console.log('Sent message:', inputValue);
+
+  //   console.log(messages)
+
+  //   // Clear input
+  //   setInputValue("");
+  // };
+
+
+  //const handleSendPrivateMessage =()=>{
+
+
+
+
+
+   // console.log(inputValue)
+    //sendMessage({text : inputValue,})
+    //setInputValue("")
+
+
+
+
+
+    // setMessages(p => [ { senderId: yourName, message: inputValue, receiverId: chatName },...p]);
+    // setUserMessages(p => [{ senderId: yourName, message: inputValue, receiverId: chatName },...p]);
+
+    // // Emit to server
+    // // socket.emit("sendPrivateMessage",{ senderId: yourName, message: inputValue, receiverId: chatName });
+
+    // // Log the sent message to console
+    // console.log('Sent message:', inputValue);
+
+    // // Clear input
+    // setInputValue("");
+
+
+  //}
+
+
+  
+
+
+  // useEffect(() => {
+  //   const handleNewUser = ( msg) => {
+  //     setNewUser(msg.uid);
+  //     console.log('New user connected:', msg.sid); // Log new user connection
+  //   };
+
+  //   const handleReceivePrivateMessage = (m) => {
+  //     console.log("message : ", m);
+
+  //     // senderId: 'KSCriGPy6sxMB_vvAAAz', message: 'hello', receiverId: 'RnXhu9vfHcWmhw6uAAAx
+    
+  //     setMessages((p) => [ {
+  //       senderId: m.senderId,
+  //       message: m.message,
+  //       receiverId: m.receiverId,
+  //     },...p]);
+    
+  //     setUserMessages((p) => [ {
+  //       senderId: m.senderId,
+  //       message: m.message,
+  //       receiverId: m.receiverId,
+  //     },...p]);
+    
+  //     console.log('Received message:', m); 
+  //     console.log(messages)
+  //     // Do NOT rely on messages here — it won't show the new one yet.
+  //   };
+    
+
+  //   const handleReceiveMessage = (msg) => {
+  //     setMessages((p) => [msg, ...p]);
+  //     setUserMessages((p) => [msg, ...p]);
+  //     console.log('Received message:', msg); // Log received message
+  //     console.log(messages)
+  //   };
+
+  //   socket.on("new_user", handleNewUser);
+  //   socket.on("receiveMessage", handleReceiveMessage);
+  //   socket.on("receivePrivateMessage",handleReceivePrivateMessage)
+
+  //   socket.emit("get_user_id");
+
+  //   return () => {
+  //     socket.off("new_user", handleNewUser);
+  //     socket.off("receiveMessage", handleReceiveMessage);
+  //     socket.off("receivePrivateMessage", handleReceivePrivateMessage);
+  //   };
+  // }, []);
+
+  
+ 
+
+
+
+
+ 
+
+  // console.log("selected : ",selectedUser,authUser)
+
+
+  // console.log("chatName : ",chatName)

@@ -1,0 +1,29 @@
+.option {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    gap: 25px;
+    cursor: pointer;
+    /* background-color: blue; */
+    padding-block: 15px;
+    padding-inline: 25px;
+    border-radius: 15px;
+  }
+  
+  .option .icon {
+    font-size: 26px;
+    color: #555;
+  }
+  
+  .option .text h4 {
+    margin-left: 5px;
+    font-size: 24px;
+  }
+  
+  .option .text p {
+    margin: 15px 0 0 0;
+    margin-left: 5px;
+    color: #777;
+    font-size: 15px;
+  }
+

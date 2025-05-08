@@ -1,0 +1,104 @@
+.StatusVideoBox{
+    background-color: white;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+
+    .OthersStatus{
+      background-color: white;
+      margin-block: 15px;
+
+      display: flex;
+
+      .OthersStatusPhotoBox{
+  
+        height: 100%;
+        width: 15%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+
+        .OthersStatusPhoto{
+
+          height: 70px;
+          width: 70px;
+          background-color: black;
+          border-radius: 50%;
+          border: 2px solid blue;
+
+        }
+
+      }
+
+      .OthersStatusMessagesInfo{
+          width: 85%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          .OthersMyStatusName{
+      
+            height: 50%;
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+
+            font-size: x-large;
+
+
+
+          }
+
+          .OthersStatusClick{
+
+            height: 40%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            font-size: large;
+
+
+
+          }
+
+
+
+
+      }
+
+    }
+
+
+    .LineBox{
+
+
+
+      height: 1px;
+      width: 100%;
+      display: flex;
+
+      .Empty
+      {
+          width: 15%;
+         
+          height: 1px;
+      }
+      .Line{
+
+          width: 85%;
+          background-color: rgba(0, 0, 0, 0.263);
+          border-radius: 50%;
+          height: 1px;
+
+      }
+
+    }
+
+
+
+
+  }

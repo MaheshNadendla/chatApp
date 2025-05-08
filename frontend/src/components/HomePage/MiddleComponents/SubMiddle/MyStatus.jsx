@@ -1,4 +1,5 @@
 import React from 'react'
+import './MyStatus.css'
 
 function MyStatus() {
   return (

@@ -44,31 +44,55 @@
 // export default App;
 
 // import socket from "./socket";
-import React from "react";
-import AppSoc from "./components/AppSoc"
-import FullApp from "./components/HomePage/FullApp";
-
+import React, { useContext, useEffect } from "react";
 import './App.css';
-import SignUpLogin from "./components/SignUpLoginPage/SignUpLogin";
-
 import { BrowserRouter } from 'react-router-dom';
 import { Navigate, Route, Routes } from "react-router-dom";
+import SignupPage from "./pages/SignupPage";
+import HomePage from "./pages/HomePage";
+import ProfilePage from "./pages/ProfilePage";
+import Settings from "./components/HomePage/MiddleComponents/Settings";
+import { Toaster } from 'react-hot-toast';
+import { ContextDef } from "./components/HomePage/contextDef";
+import Spinner from "./components/utils/Loader";
 
 const App = () => {
+  const { authUser, checkAuth, isCheckingAuth} = useContext(ContextDef);
+
+  useEffect(() => {
+    checkAuth();  // Call checkAuth to validate user on mount
+  }, [checkAuth]);
+
+  if (isCheckingAuth && !authUser) {
+    return (
+      <Spinner/>
+    );
+  }
+  
   
 
   return (
     <>
-      <BrowserRouter>
-      
-          <Routes >
-            <Route path="/" element={< Navigate to="/signup" />} />
-            <Route path="/signup" element={<SignUpLogin/>} />
-            <Route path="/home" element={<FullApp/>} />
-          </Routes>
-      
-      </BrowserRouter>
+          <style>
+            {`
+              @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+            `}
+          </style>
 
+      <BrowserRouter>
+        <Routes>
+          {/* Redirect to signup if user is not logged in */}
+          <Route path="/" element={authUser ? <Navigate to="/home" /> : <Navigate to="/signup" />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/home" element={authUser ? <HomePage /> : <Navigate to="/signup" />} />
+          <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/signup" />} />
+          <Route path="/settings" element={authUser ? <Settings /> : <Navigate to="/signup" />} />
+        </Routes>
+      </BrowserRouter>
+      <Toaster />
     </>
   );
 };

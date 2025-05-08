@@ -1,0 +1,137 @@
+.UserBoxs:hover
+      {
+        background-color: #f0f2f5;
+      }
+
+.User{
+    height: 100px;
+    width: 100%;
+    /* margin-top: 2px; */
+
+    /* background-color: pink; */
+   
+
+    padding-block: 4px;
+
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+
+    .PhotoBox{
+
+      height: 100%;
+      width: 20%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+
+      .Photo{
+
+        height: 80px;
+        width: 80px;
+        background-color: black;
+        border-radius: 50%;
+        overflow: hidden; /* ADD THIS to clip the image inside the circle */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+
+        
+
+
+      }
+
+      .Photo img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover; /* to make sure the image covers the circle perfectly */
+        border-radius: 50%;
+      }
+
+    }
+
+   
+
+
+    .MessagesInfo{
+
+      height: 80%;
+      width : 80%;
+
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+
+      
+
+      .NameBox{
+        height: 50%;
+        width: 100%;
+
+        
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .Name{
+          font-size: x-large;
+          font-weight: 400;
+          color: rgba(0, 0, 0, 0.75);
+        }
+
+
+
+      }
+
+      .NameBox *{
+        margin-inline: 15px;
+      }
+
+      .MessageBox{
+        height: 50%;
+        width: 100%;
+
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+
+        .UnreadCount{
+          background-color: #25D366;
+          width: 30px;
+          height: 30px;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          border-radius: 50%;
+          color: white;
+
+
+
+        }
+
+        
+
+
+      }
+
+      .MessageBox *{
+        margin-inline: 15px;
+      }
+
+
+
+
+    }
+
+   
+
+
+  }

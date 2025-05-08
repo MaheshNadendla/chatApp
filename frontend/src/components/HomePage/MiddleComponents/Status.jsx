@@ -4,6 +4,8 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import MyStatus from './SubMiddle/MyStatus';
 import StatusVideo from './SubMiddle/StatusVideo';
 
+import './Status.css'
+
 function Status() {
   return (
     <div className='Status'>

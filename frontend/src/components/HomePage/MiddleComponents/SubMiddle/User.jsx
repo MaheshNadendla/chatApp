@@ -1,41 +1,58 @@
 import React, { useContext } from 'react'
 import { ContextDef } from '../../contextDef';
+import './User.css'
 
 
-function User({name}) {
+function User({user}) {
 
   const {setChatName} = useContext(ContextDef);
   const{messages,setMessages} = useContext(ContextDef)
   const{userMessages,setUserMessages} = useContext(ContextDef);
-  const{yourName}= useContext(ContextDef);
+  const{yourName,selectedUser, setSelectedUser}= useContext(ContextDef);
+
+  const {onlineUsers, setOnlineUsers} = useContext(ContextDef)
 
 
 
 
   const showMessages = () => {
-    setChatName(name);
+    // setChatName(user.name);
+
+    
+
+    setSelectedUser(user)
+
+    console.log("the user : ",user)
     
     
-    let filteredMessages = [];
+    // let filteredMessages = [];
   
-    console.log(yourName + "  " + name);
-    console.log(`These are messages :`, messages); 
+    // console.log(yourName + "  " + user.name);
+    // console.log(`These are messages :`, messages); 
   
-    messages.forEach(user => {
-      if ((user.senderId === yourName && user.reciverId === name) || 
-          (user.senderId === name && user.reciverId === yourName)) {
-        filteredMessages.push({
-          senderId: user.senderId,
-          message: user.message,
-          reciverId: user.reciverId
-        });
-      }
-    });
+    // messages.forEach(user => {
+
+    //   console.log("user here : ",user,user.name,yourName)
+
+    //   console.log("userId : ",user.senderId,"your name : ",yourName,"reciverId : ",user.receiverId,"name : ",user.name)
+
+    //   if ((user.senderId === yourName && user.receiverId === user.name) || 
+    //       (user.senderId === user.name && user.receiverId === yourName)) {
+
+            
+
+    //     filteredMessages.push({
+    //       senderId: user.senderId,
+    //       message: user.message,
+    //       receiverId: user.receiverId
+    //   ``  });
+    //   }
+    // });
   
    
-    setUserMessages(filteredMessages);
+    // setUserMessages(filteredMessages);
   
-    console.log(`User Messages :`, filteredMessages);
+    // console.log(`User Messages :`, filteredMessages);
   };
 
 
@@ -45,14 +62,21 @@ function User({name}) {
 
         <div onClick={showMessages} className='User'>
                 
-                <div className='PhotoBox'><div className='Photo'></div></div>
+                <div className="PhotoBox">
+                  <div className="Photo">
+                    <img src={user?.profilePic || 'defaultImg.png'} alt="User Photo" />
+                  </div>
+                </div>
                 <div className='MessagesInfo'>
                     <div className='NameBox'>
-                      <div className='Name'>{name}</div>
-                      <div className='Time'>time</div>
+                      <div className='Name'>{user?.name}</div>
+                      <div className='Time'>
+                        {onlineUsers.includes(user?._id) ? "online" : "offline"}
+                        
+                        </div>
                     </div>
                     <div className='MessageBox'>
-                      <div className='Message'>message</div>
+                      <div className='Message'>{user?.email}</div>
                       <div className='UnreadCount'>5</div>
                     </div>
                 </div>

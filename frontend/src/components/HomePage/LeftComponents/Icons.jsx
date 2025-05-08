@@ -8,9 +8,7 @@ import { FaMeta } from "react-icons/fa6";
 
 import { IoSettingsOutline } from "react-icons/io5";
 import { ContextDef } from '../contextDef';
-
-
-
+import './Icons.css'
 
 function Icons() {
 

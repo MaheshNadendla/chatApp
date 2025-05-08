@@ -123,13 +123,20 @@
 // export default SignUpLogin
 
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import './SignUpLogin.css';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast'
+import { axiosInstance } from '../../lib/axios';
+import { ContextDef } from '../HomePage/contextDef';
+
+import BtnLoader from '../utils/BtnLoader';
 
 function SignUpLogin() {
   const navigate = useNavigate(); // Used to navigate after successful login/signup
+
+  const {login,signup,isLoggingIn,isSigningUp} = useContext(ContextDef)
 
   const [signUpUser, setSignUpUser] = useState({
     name: '',
@@ -149,14 +156,8 @@ function SignUpLogin() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/signup', signUpUser, {
-        withCredentials: true,
-      });
-      
-      if (response.status === 200) {
-        console.log('Sign up successful:', response.data);
-        navigate('/home');  // Redirect to home after successful signup
-      }
+      const move = await signup(signUpUser);
+      if(move) navigate('/home')
     } catch (error) {
       setErrorMessage(error.response?.data?.message || 'Something went wrong');
     }
@@ -165,16 +166,9 @@ function SignUpLogin() {
   // Handle Login Submit
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post('http://localhost:5000/login', loginUser, {
-        withCredentials: true,
-      });
-
-      if (response.status === 200) {
-        console.log('Login successful:', response.data);
-        navigate('/home');  // Redirect to home after successful login
-      }
+      const move = await login(loginUser);
+      if(move) navigate('/home')
     } catch (error) {
       setErrorMessage(error.response?.data?.message || 'Something went wrong');
     }
@@ -234,7 +228,7 @@ function SignUpLogin() {
             />
             <label>Enter your password</label>
           </div>
-          <button type="submit">Register</button>
+          <button type="submit" style={{display: 'flex',justifyContent: 'center',alignItems: 'center',}} >{isSigningUp ? (<BtnLoader/>) : "Register" }</button>
           <div className="register">
             <p>
               Have an account?
@@ -277,7 +271,7 @@ function SignUpLogin() {
             </label>
             <a href="#">Forgot password?</a>
           </div>
-          <button type="submit">Log In</button>
+          <button style={{display: 'flex',justifyContent: 'center',alignItems: 'center',}} type="submit"> {isLoggingIn ? (<BtnLoader/>) : "Log In" }</button>
           <div className="register">
             <p>
               Don't have an account?
