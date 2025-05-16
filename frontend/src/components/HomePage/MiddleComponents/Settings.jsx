@@ -58,7 +58,7 @@ const Settings = () => {
       <div className="log-out-container">
         <button onClick={logoutSubmit} className="logout-class">
             <div className="logout-icon"><MdLogout/></div>
-            <button className="logout-btn">Log out</button>
+            <div className="logout-btn">Log out</div>
       </button>
       </div>
     </div>

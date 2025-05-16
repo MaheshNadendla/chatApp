@@ -1,6 +1,6 @@
 .UserBoxs:hover
       {
-        background-color: #f0f2f5;
+        background-color: #f0f2f5b1;
       }
 
 .User{
@@ -25,10 +25,22 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
+
+      .online-indicator {
+          position: absolute;
+          bottom: 8%;
+          right: 22%;
+          width: 23px;
+          height: 23px;
+          background-color: #25D366; /* green “online” color */
+          border: 2px solid white;   /* white border to stand out */
+          border-radius: 50%;
+      }
 
 
       .Photo{
-
+        
         height: 80px;
         width: 80px;
         background-color: black;
@@ -37,6 +49,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
+
+        
 
 
         

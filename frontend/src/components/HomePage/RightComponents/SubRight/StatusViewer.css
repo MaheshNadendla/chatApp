@@ -1,0 +1,118 @@
+.status-viewer {
+  position: fixed;
+  top: 0;
+  left: 72.5%; /* Added px */
+  width: 55%;
+  height: 100%;
+  transform: translate(-50%,0);
+  background-color: #f0f0f0; /* Light background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  flex-direction: column;
+  z-index: 1000;
+ 
+}
+
+.status-progress {
+  display: flex;
+  position: absolute;
+  top: 10px;
+  width: 90%;
+  gap: 5px;
+  height: 4px;
+}
+
+.progress-line {
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.2); /* light gray background */
+  border-radius: 2px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.progress-line.active {
+  background-color: #3498db; /* blue for active step */
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 1.5rem;
+  color: #333; /* Darker text */
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.status-content {
+  max-width: 80%;
+  max-height: 80%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.status-image {
+  width: 90%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 10px;
+  display: block;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+  
+}
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #444; /* Darker text */
+  font-size: 1.2rem;
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: #555;
+  background: #f0f0f0;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  transition: background 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.nav-button:hover {
+  background: #25Fe66;
+}
+
+.nav-button.left {
+  left: 20px;
+}
+
+.nav-button.right {
+  right: 20px;
+}
+
+.no-status {
+  color: #666;
+  font-size: 1.5rem;
+  text-align: center;
+  padding-top: 20%;
+}

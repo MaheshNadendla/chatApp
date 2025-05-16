@@ -5,6 +5,7 @@ import { FaPlus } from "react-icons/fa6";
 import { FaMicrophone } from "react-icons/fa";
 import { IoSendSharp } from "react-icons/io5";
 import { RiEmojiStickerFill } from "react-icons/ri";
+import { FaPhotoVideo } from "react-icons/fa";
 // import socket from '../../../socket';
 import { ContextDef } from '../contextDef';
 
@@ -16,15 +17,16 @@ import RightPart from './RightPart';
 import { ChatBubble } from './ChatBubble';
 
 import toast from 'react-hot-toast'
-import socket from '../../../socket';
+import TypingDots from './SubRight/TypingDots';
+// import socket from '../../../socket';
 
 function MessagePart() {
   const [inputValue, setInputValue] = useState("");
   const [sendingMessageLoader,setSendingMessageLoader]=useState(false)
-  const { userMessages, setUserMessages } = useContext(ContextDef);
+  const { userMessages, setUserMessages,socket } = useContext(ContextDef);
 
-  const {typingStatus, setTypingStatus}=useContext(ContextDef);
-  const{ messages,getMessages,isMessagesLoading,subscribeToMessages,unsubscribeFromMessages,selectedUser, authUser,sendMessage}= useContext(ContextDef);
+  const {typingStatus, setTypingStatus,typers,setTypers}=useContext(ContextDef);
+  const{ messages,getMessages,isMessagesLoading,selectedUser, authUser,subscribeToMessages,unsubscribeFromMessages,sendMessage,setMessages}= useContext(ContextDef);
   
 
   // const { messages, setMessages } = useContext(ContextDef);
@@ -44,7 +46,8 @@ function MessagePart() {
       senderId: authUser._id,
       receiverId: selectedUser._id,
     });
-  
+
+
   
   
 
@@ -100,11 +103,48 @@ function MessagePart() {
 
 
     
-  }, [selectedUser,selectedUser?._id,subscribeToMessages,unsubscribeFromMessages]);
+  }, [selectedUser?._id,subscribeToMessages,unsubscribeFromMessages]);
+
+
+
+  // useEffect(() => {
+  //   if (!selectedUser?._id || !socket) return;
+  
+  //   getMessages(selectedUser._id);
+  
+  //   console.log("hello2");
+  //   console.log("Socket connected:", socket?.connected);
+  //   console.log("Subscribed to newMessage for", selectedUser._id);
+  
+  //   const handleNewMessage = (newMessage) => {
+  //     console.log("New message received from socket:", newMessage);
+  
+  //     const isMessageSentFromSelectedUser = newMessage.senderId === selectedUser._id;
+  //     console.log("Incoming message senderId:", newMessage.senderId);
+  //     console.log("Selected user _id:", selectedUser._id);
+  
+  //     if (!isMessageSentFromSelectedUser) return;
+  
+  //     setMessages((prev) => {
+  //       console.log("Adding new message to state");
+  //       return [...prev, newMessage]; // ❓ this still seems odd
+  //     });
+  //   };
+  
+  //   socket.off("newMessage"); // Always clear old handler before setting new one
+  //   socket.on("newMessage", handleNewMessage);
+  
+  //   return () => {
+  //     console.log("Unsubscribing from newMessage");
+  //     socket.off("newMessage", handleNewMessage);
+  //   };
+  // }, [selectedUser?._id, socket]); // ✅ Clean dependencies
+  
 
 
 
   
+  // console.log(messages)
 
 
 
@@ -118,7 +158,12 @@ function MessagePart() {
 
 
 
+
+
+
   const handleSendPrivateMessage = async (e) => {
+
+    console.log("sending message in handleSendPrivateMessage")
 
     setSendingMessageLoader(true)
 
@@ -149,10 +194,29 @@ function MessagePart() {
   useEffect(() => {
     // Scroll to the bottom when new messages are added
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, []); // Trigger effect when messages change
+  }, [messages,typers]); // Trigger effect when messages change
 
 
-  console.log(typingStatus)
+
+  useEffect(() => {
+  const interval = setInterval(() => {
+    setTypers((prev) => {
+      if (prev.length === 0) return prev; // do nothing if empty
+      const updated = prev.slice(0, -1); // remove last item
+      return updated;
+    });
+  }, 4000); // every 3 seconds
+
+  return () => clearInterval(interval); // cleanup on unmount
+}, []);
+
+
+
+  // console.log(typingStatus)
+
+  // console.log("messages : ",messages)
+
+  
 
 
   if(!selectedUser)
@@ -195,23 +259,31 @@ function MessagePart() {
           <span key={index} className="">
 
             <ChatBubble
-              message={msg.text}
-              image={msg.image}
-              isSender={authUser?._id === msg.senderId}
-              time={new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              status={authUser?._id === msg.senderId ? "sent" : ""}
+              message={msg?.text}
+              image={msg?.image}
+              isSender={authUser?._id === msg?.senderId}
+              time={new Date(msg?.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              status={authUser?._id === msg?.senderId ? "sent" : ""}
             />
 
            
           </span>
         ))}
+
+         {typers.some((typer) => typer.id === selectedUser._id) && <TypingDots/>}
+
+         {/* {typingStatus && (<p>typing</p>)} */}
+
           <div ref={messagesEndRef} /> 
+
+
+
       </div>
 
       <div className='Bottom'>
         <input type="file" accept="image/*" className="hidden" ref={fileInputRef} onChange={handleImageChange} />
 
-        <button  onClick={() => fileInputRef.current?.click()} className="Plus"><FaPlus /> </button>
+        <button  onClick={() => fileInputRef.current?.click()} className="Plus"><FaPhotoVideo /> </button>
         <div className="InputBar">
           <button className="Sticker"><RiEmojiStickerFill /></button>
           <input

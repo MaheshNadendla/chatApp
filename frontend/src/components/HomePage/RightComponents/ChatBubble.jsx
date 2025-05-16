@@ -98,6 +98,9 @@ export function ChatBubble({ message, image, isSender, time, status }) {
           flexDirection: "column",
           alignItems: "flex-start",
           gap: "8px",
+
+          border: isSender ? "1px solid rgba(255, 255, 255, 1)" : "1px solid rgba(0, 0, 0, 0.15)",
+
         }}
       >
         {/* Image (optional) */}

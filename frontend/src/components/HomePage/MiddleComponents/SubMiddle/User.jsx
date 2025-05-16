@@ -1,28 +1,58 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import { ContextDef } from '../../contextDef';
 import './User.css'
 
 
+
 function User({user}) {
 
-  const {setChatName} = useContext(ContextDef);
-  const{messages,setMessages} = useContext(ContextDef)
-  const{userMessages,setUserMessages} = useContext(ContextDef);
-  const{yourName,selectedUser, setSelectedUser}= useContext(ContextDef);
+  const {
+  setChatName,
+  messages, setMessages,
+  userMessages, setUserMessages,
+  yourName, selectedUser, setSelectedUser,
+  typingStatus, setTypingStatus,
+  onlineUsers, setOnlineUsers,
+  typers, setTypers,
+  selectedOne,setSelectedOne,
+} = useContext(ContextDef);
 
-  const {onlineUsers, setOnlineUsers} = useContext(ContextDef)
+
+useEffect(() => {
+  console.log("selectedUser changed:", selectedUser);
+}, [selectedUser]);
 
 
 
+
+
+
+      // console.log("ref : ",selectedUser)
+
+      // Keep ref in sync
+  
 
   const showMessages = () => {
     // setChatName(user.name);
 
     
 
+    console.log("user : ",user)
     setSelectedUser(user)
 
-    console.log("the user : ",user)
+
+    
+
+
+
+
+
+
+
+
+
+
+    // console.log("the user : ",user)
     
     
     // let filteredMessages = [];
@@ -58,14 +88,16 @@ function User({user}) {
 
 
   return (
-    <div className='UserBoxs'>
+    <div className='UserBoxs' style={{backgroundColor:selectedUser?._id===user._id ? "#f0f2f5" : ""}} >
 
         <div onClick={showMessages} className='User'>
                 
                 <div className="PhotoBox">
                   <div className="Photo">
                     <img src={user?.profilePic || 'defaultImg.png'} alt="User Photo" />
+                      
                   </div>
+                  {onlineUsers.includes(user._id) && <span className="online-indicator" />}
                 </div>
                 <div className='MessagesInfo'>
                     <div className='NameBox'>

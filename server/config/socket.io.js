@@ -78,16 +78,35 @@ export function getReceiverSocketId(userId) {
 }
 
 io.on("connection", (socket) => {
-  console.log("A user connected", socket.id);
-  console.log("array : ", userSocketMap);
+  // console.log("A user connected", socket.id);
+  // console.log("array : ", userSocketMap);
 
   const userId = socket.handshake.query.userId;
   if (userId) userSocketMap[userId] = socket.id;
 
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
+
+  socket.on("sendMessage", ({ senderId, receiverId, message }) => {
+    const receiverSocketId = userSocketMap[receiverId];
+  
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", {
+        senderId,
+        receiverId,
+        message,
+        createdAt: new Date().toISOString(),
+      });
+      // console.log(`Message sent from ${senderId} to ${receiverId}`);
+    }
+  });
+  
+
+
+
   // 🔹 TYPING EVENT LISTENERS
   socket.on("typing", ({ senderId, receiverId }) => {
+    console.log("send : ",senderId,"recive : ",receiverId)
     const receiverSocketId = userSocketMap[receiverId];
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("show-typing", { senderId,receiverId });
@@ -102,10 +121,10 @@ io.on("connection", (socket) => {
   // });
 
   socket.on("disconnect", () => {
-    console.log("A user disconnected", socket.id);
+    // console.log("A user disconnected", socket.id);
 
     delete userSocketMap[userId];
-    console.log("array : ", userSocketMap);
+    // console.log("array : ", userSocketMap);
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
   });
 });

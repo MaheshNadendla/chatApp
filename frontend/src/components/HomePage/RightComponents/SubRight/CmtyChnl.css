@@ -1,0 +1,102 @@
+.cmty-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-color: #f0f2f5; /* WhatsApp background */
+ 
+  height: 100vh;
+}
+
+
+.cmty-card {
+  background-color: white;
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  width: 75%;
+  height: 65%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  color: #111b21;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  transition: 
+    transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), /* Smoother transform transition */
+    box-shadow 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), /* Smoother box-shadow transition */
+    border-radius 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), /* Smoother border-radius transition */
+    border 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother border transition */
+}
+
+.cmty-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  rotate: 0deg; /* Initial rotation */
+  gap: 10px;
+  transition: 
+    transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transform transition */
+}
+
+.cmty-card:hover {
+  transform: rotate(90deg); /* Rotate card 45 degrees */
+  box-shadow: 0 10px 30px rgba(0, 168, 132, 0.4);
+  border-radius: 50px;
+  border: none;
+}
+
+.cmty-card:hover .cmty-card-content {
+  transform: rotate(-90deg); /* Rotate the inner div to the left */
+}
+
+
+
+
+
+.cmty-logo {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  border: 2px solid #25d36655; /* green border */
+  background-color: white;
+}
+
+.cmty-name {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: black;
+}
+
+.cmty-bio {
+  font-size: 14px;
+  color: #8696a0;
+  margin-bottom: 20px;
+}
+
+.cmty-follow-button {
+  background-color: #25d366;
+  color: #0b141a;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cmty-follow-button:hover {
+  background-color: green; /* slightly darker green */
+  color: white;
+  transform: scale(1.05);
+}
+
+.cmty-follower-count {
+  margin-top: 15px;
+  font-size: 13px;
+  color: #aebac1;
+}

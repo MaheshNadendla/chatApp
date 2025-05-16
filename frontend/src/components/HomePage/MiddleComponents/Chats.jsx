@@ -255,7 +255,10 @@ function Chats() {
   const [socketConnected, setSocketConnected] = useState(false);
 
 
-  const { getUsers, users, isUsersLoading } = useContext(ContextDef);
+  const { getUsers, users, isUsersLoading,selectedUser,setSelectedUser } = useContext(ContextDef);
+
+
+  
 
 
   // console.log(users)
@@ -347,7 +350,9 @@ function Chats() {
 
       <div className="Users">
         {users.map((user, index) => (
+         
           <User key={index} user={user} />
+         
         ))}
       </div>
     </div>

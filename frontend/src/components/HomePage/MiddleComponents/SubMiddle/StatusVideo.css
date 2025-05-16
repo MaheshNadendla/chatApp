@@ -19,9 +19,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        margin-inline: 10px;
 
 
         .OthersStatusPhoto{
+
 
           height: 70px;
           width: 70px;
@@ -29,7 +31,21 @@
           border-radius: 50%;
           border: 2px solid blue;
 
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
         }
+
+        .OthersStatusPhoto img{
+
+          height: 100%;
+          width: 100%;
+          border-radius: 50%;
+    
+
+        }
+
 
       }
 
@@ -102,3 +118,52 @@
 
 
   }
+
+  .StatusIndicators {
+  position: absolute;
+  display: flex;
+  gap: 4px;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.StatusDot {
+  width: 2px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: red;
+  
+  opacity: 0.5;
+}
+
+.OthersStatusPhotoBox {
+  position: relative; /* Required for absolute positioning of indicators */
+}
+
+
+.OthersStatusPhotoRing {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3px;
+  background-color: white; /* for center hole effect */
+}
+
+.OthersStatusPhoto {
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: white;
+}
+
+.OthersStatusPhoto img {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}

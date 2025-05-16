@@ -9,7 +9,12 @@ const userSchema = new mongoose.Schema({
   isVerified: { type: Boolean, default: false },
   veficationOtp: { type: String, default: '' },
   veficationOtpExpiresAt: { type: Number, default: 0 },
-  lastSeen: { type: Date, default: Date.now }
+  profileFilled: { type: Boolean, default: false },
+  lastSeen: { type: Date, default: Date.now },
+  friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  statusVideos: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "StatusVideo" }
+  ],
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);

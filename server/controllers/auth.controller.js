@@ -21,10 +21,15 @@ export const signup= async(req,res)=>{
         const salt = await bcrypt.genSalt(10)
         const hashPass = await bcrypt.hash(password,salt)
 
+        const randomNumber = Math.floor(Math.random() * 100) + 1;
+
+        const randomImage = `https://avatar.iran.liara.run/public/${randomNumber}`
+
         const newUser = new User({
             name,
             email,
-            password:hashPass
+            password:hashPass,
+            profilePic:randomImage
         })
 
 

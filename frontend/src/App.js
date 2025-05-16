@@ -55,6 +55,7 @@ import Settings from "./components/HomePage/MiddleComponents/Settings";
 import { Toaster } from 'react-hot-toast';
 import { ContextDef } from "./components/HomePage/contextDef";
 import Spinner from "./components/utils/Loader";
+import OtpVerificationPage from "./pages/verifyOtpPage";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth} = useContext(ContextDef);
@@ -85,11 +86,12 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           {/* Redirect to signup if user is not logged in */}
-          <Route path="/" element={authUser ? <Navigate to="/home" /> : <Navigate to="/signup" />} />
+          <Route path="/" element={authUser   ? ( authUser?.isVerified ? (<Navigate to="/home" />) : <Navigate to="/verify" />)  : <Navigate to="/signup" />} />
           <Route path="/signup" element={<SignupPage />} />
-          <Route path="/home" element={authUser ? <HomePage /> : <Navigate to="/signup" />} />
-          <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/signup" />} />
-          <Route path="/settings" element={authUser ? <Settings /> : <Navigate to="/signup" />} />
+          <Route path="/home" element={authUser ? ( authUser?.isVerified ? (<HomePage />) : <Navigate to="/verify" />)  : <Navigate to="/signup" />} />
+          <Route path="/profile" element={authUser ?  ( authUser?.isVerified ? (<ProfilePage />) : <Navigate to="/verify" />)    : <Navigate to="/signup" />} />
+          <Route path="/settings" element={authUser ? ( authUser?.isVerified ? (<Settings />) : <Navigate to="/verify" />)  : <Navigate to="/signup" />} />
+          <Route path="/verify" element={authUser ? ( authUser?.isVerified ? (<Navigate to="/home" />) : <OtpVerificationPage />)  : <Navigate to="/signup" />} />
         </Routes>
       </BrowserRouter>
       <Toaster />

@@ -7,6 +7,8 @@ import Community from './MiddleComponents/Community';
 import AIChat from './MiddleComponents/AIChat';
 import Settings from './MiddleComponents/Settings';
 import Profile from './MiddleComponents/Profile';
+import AddFriends from './MiddleComponents/AddFriends';
+import Notifications from './MiddleComponents/Notifications';
 
 function Middle() {
 
@@ -42,6 +44,13 @@ function Middle() {
       }
       {
           middlePage==="profile" && <Profile />
+      }
+      {
+          middlePage==="addfriends" && <AddFriends/>
+      }
+      
+     {
+          middlePage==="notifications" && <Notifications/>
       }
       
       

@@ -1,75 +1,144 @@
-.Status{
+.Status {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
-    height: 100%;
-    width: 100%;
+.Status .StatusHeader {
+  background-color: white;
+  height: 12%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    display: flex;
-    flex-direction: column;
-    .StatusHeader{
-      background-color: white;
-      height: 11%;
-      width: 100%;
+.Status .StatusHeader .StatusLabel {
+  height: 100%;
+  width: 18%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: xx-large;
+  font-weight: 750;
+  margin-left: 20px;
+}
 
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+.Status .StatusHeader .StatusButtons {
+  width: 60%;
+  padding-top: 10px;
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  font-size: xx-large;
+}
 
+.Status .StatusHeader .StatusButtons .Icon {
+  height: 70px;
+  width: 70px;
+  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: xx-large;
+}
 
-      .StatusLabel{
-        
-        height: 100%;
-        width: 18%;
+.Status .StatusBar {
+  background-color: white;
+  height: 89%;
+  width: 100%;
+  overflow-y: auto;
+}
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
+.Status .StatusBar .StatusBox {
+  background-color: white;
+  width: 100%;
+}
 
-        font-size: xx-large;
-        font-weight: 750;
+.Status .StatusBar .StatusBox .no-status {
+  padding: 2rem;
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  width: 100%;
+}
 
+/* ---------------------- */
+/* Additional overlay CSS */
+/* ---------------------- */
 
-      }
+.StatusPreviewOverlay {
+  position: fixed;
+  top: 50%;
+  left: 72.5%;
+  transform: translate(-50%,-50%);
+  width: 55%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  background-color: #f0f0f0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-      .StatusButtons{
+.StatusPreviewContent {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-      
-        height: 100%;
-        width: 25%;
+.StatusPreviewContent img,
+.StatusPreviewContent video {
+  max-width: 800px;
+  height: 500px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  border: 1px solid black;
+}
 
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
+/* Send button on left side */
+.StatusPreviewSend {
+  position: absolute;
+  top: -5px;
+  left: -20px;
+  background-color: #25D366;
+  background: linear-gradient(to right,red,blue,green);
+   transform: translate(50%,50%);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  z-index: 1001;
+}
 
-        font-size: xx-large;
+.StatusPreviewSend:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
-      }
-
-
-    }
-    .StatusBar{
-      background-color: pink;
-      height: 89%;
-      width: 100%;
-
-      overflow-y: auto;
-
-
-
-      
-
-      .StatusBox{
-
-        /* background-color: blue; */
-
-        width: 100%;
-
-
-          
-
-
-      }
-
-
-    }
-
-  }
+/* Close button on right side */
+.StatusPreviewClose {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  transform: translate(-50%,50%);
+  background: linear-gradient(to right,red,blue,green);
+  border: none;
+  border-radius: 50%;
+  padding: 0.4rem;
+  cursor: pointer;
+  font-size: 1rem;
+  z-index: 1001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

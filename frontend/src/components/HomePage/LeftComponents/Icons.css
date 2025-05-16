@@ -50,7 +50,8 @@
       }
 
       .Icon:hover {
-        background-color: #25d3659a;
+       scale: 1.05;
+       background-color: #25D3659a;
       }
 
      
@@ -95,10 +96,18 @@
         cursor: pointer;
 
 
+        .Icon-Image{
+          height: 70px;
+          width: 70px;
+          border-radius: 50%;
+          border: 1px solid rgba(0, 0, 0, 0.3);
+        }
+
+
       }
 
       .Icon:hover {
-        background-color: #25d3659a;
+        scale: 1.05;
       }
 
 

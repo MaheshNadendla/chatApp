@@ -1,0 +1,52 @@
+.ai-chat-page {
+  max-width: 900px;
+  margin: 0px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: white;
+  height: 100%;
+  
+}
+
+.chat-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  margin-block: 30px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+}
+
+.ai-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 20px;
+}
+
+.ai-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #f9f9f9;
+}
+
+.ai-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.ai-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.ai-name {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
