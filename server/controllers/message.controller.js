@@ -184,3 +184,21 @@ export const getFriendStatuses = async (req, res) => {
   }
 };
 
+
+export const getMyStatus = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    // Find all status videos posted by the current user
+    const statuses = await StatusVideo.find({ user: userId })
+      .sort({ createdAt: -1 }) // newest first
+      .populate("user", "name profilePic"); // include user name and profilePic
+
+    return res.json(statuses);
+  } catch (err) {
+    console.error("Error in getMyStatus:", err);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+

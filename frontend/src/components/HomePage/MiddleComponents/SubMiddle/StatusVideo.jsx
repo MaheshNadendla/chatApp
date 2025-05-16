@@ -3,11 +3,9 @@ import './StatusVideo.css';
 import { ContextDef } from '../../contextDef';
 
 function StatusVideo({ status }) {
-  const { setSelectedUserStatus } = useContext(ContextDef);
+  const { selectedUserStatus,setSelectedUserStatus } = useContext(ContextDef);
 
-  const handleClick = () => {
-    setSelectedUserStatus(status.statuses);
-  };
+
 
   const lastStatus = status.statuses[status.statuses.length - 1];
   const formattedTime = new Date(lastStatus.createdAt).toLocaleTimeString("en-IN", {
@@ -16,7 +14,7 @@ function StatusVideo({ status }) {
   });
 
   return (
-    <div className='StatusVideoBox' onClick={handleClick}>
+    <div className='StatusVideoBox' onClick={()=>{setSelectedUserStatus(status.statuses)}} style={{backgroundColor:status?.user?._id===selectedUserStatus?.user?._id ? "" : ""}} >
       <div className='LineBox'>
         <div className='Empty'></div>
         <div className='Line'></div>
